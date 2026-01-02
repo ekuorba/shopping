@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wishlist - QuickCart</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css">
+</head>
+<body>
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="logo"><h2>QuickCart</h2></div>
+                <div class="nav-links">
+                    <a href="index.html" class="nav-link">Home</a>
+                    <a href="product.html" class="nav-link">Products</a>
+                </div>
+                <div class="nav-icons">
+                    <button class="icon-btn" id="userBtn"><i class="fas fa-user"></i></button>
+                    <button class="icon-btn" id="wishlistBtn"><i class="fas fa-heart"></i><span class="badge" id="wishlistCount">0</span></button>
+                    <button class="icon-btn" id="cartBtn"><i class="fas fa-shopping-cart"></i><span class="badge" id="cartCount">0</span></button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        <section class="products">
+            <h2>Your Wishlist</h2>
+            <div id="wishlistContainer" class="products-grid"></div>
+            <p id="wishlistEmpty" style="display:none; color:#666; text-align:center;">Your wishlist is empty.</p>
+                <div style="text-align:center; margin-top:1rem;"><a href="products.html" class="cta-btn">Back to Products</a></div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-bottom">
+            <p>Copyright &copy; 2026 QuickCart All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Standalone wishlist page (does not depend on script.js init)
+        const products = [
+            { id: 1, name: "Bluetooth Headphones", price: 349.99, category: "electronics", image: "img/headphone2.jpg", description: "High quality wireless headphones with noise cancellation.", rating: 4.5 },
+            { id: 2, name: "Smart Watch", price: 3499.99, category: "electronics", image: "img/smartwatch.jpg", description: "Track your fitness and stay connected.", rating: 4.1 },
+            { id: 3, name: "Cotton T-Shirt", price: 119.99, category: "clothing", image: "img/tshirt.jpg", description: "Fitting T-Shirts available in multiple colors.", rating: 4.6 },
+            { id: 4, name: "Couch", price: 7999.99, category: "furniture", image: "img/couch.jpg", description: "Relax in your living room with this comfortable couch.", rating: 4.6 },
+            { id: 5, name: "Yoga Mat", price: 199.99, category: "sports", image: "img/yogamat.jpg", description: "Non-slip yoga mat for your routine exercises.", rating: 4.4 },
+            { id: 6, name: "Laptop", price: 4399.99, category: "electronics", image: "img/laptop.jpg", description: "Durable and reliable laptop for your daily tasks.", rating: 4.7 },
+            { id: 7, name: "Adidas Predator FG/MG", price: 399.99, category: "sports", image: "img/adidas predator.jpg", description: "Adidas Predator Club FG/MG Junior Football Boots White JH8868.", rating: 4.9 },
+            { id: 8, name: "Boston Celtics Kit NBA", price: 249.99, category: "sports, clothing", image: "img/boston.jpg", description: "NBA Jayson Tatum Boston Celtics Jersey Nike City Edition.", rating: 4.9 },
+            { id: 9, name: "Cargo Jeans", price: 104.99, category: "clothing", image: "img/cargo jeans.jpg", description: "Men's Cargo Jeans Cotton Solid - Green.", rating: 4.9 }
+        ];
+
+        function getWishlist() { return JSON.parse(localStorage.getItem('wishlist')) || []; }
+        function saveWishlist(w) { localStorage.setItem('wishlist', JSON.stringify(w)); }
+
+        function updateHeaderWishlistCount() {
+            const badge = document.getElementById('wishlistCount');
+            if (badge) badge.textContent = getWishlist().length;
+        }
+
+        function addToCart(productId) {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const existing = cart.find(i => i.id === productId);
+            const product = products.find(p => p.id === productId);
+            if (!product) return showMessage('Product not found');
+            if (existing) existing.quantity += 1; else cart.push({ ...product, quantity: 1 });
+            localStorage.setItem('cart', JSON.stringify(cart));
+            showMessage(`${product.name} added to cart`);
+            updateHeaderCartCount();
+        }
+
+        function updateHeaderCartCount() {
+            const badge = document.getElementById('cartCount');
+            if (!badge) return;
+            const count = (JSON.parse(localStorage.getItem('cart')) || []).reduce((s, i) => s + (i.quantity||0), 0);
+            badge.textContent = count;
+        }
+
+        function removeFromWishlist(productId) {
+            const w = getWishlist();
+            const idx = w.indexOf(productId);
+            if (idx === -1) return;
+            w.splice(idx, 1);
+            saveWishlist(w);
+            renderWishlist();
+            updateHeaderWishlistCount();
+        }
+
+        function showMessage(msg) {
+            const n = document.createElement('div');
+            n.className = 'notification';
+            n.textContent = msg;
+            n.style.cssText = 'position:fixed;top:100px;right:20px;background:#4a90e2;color:#fff;padding:1rem 1.5rem;border-radius:4px;z-index:1003;';
+            document.body.appendChild(n);
+            setTimeout(() => n.remove(), 2500);
+        }
+
+        function renderWishlist() {
+            const container = document.getElementById('wishlistContainer');
+            const emptyMsg = document.getElementById('wishlistEmpty');
+            const w = getWishlist();
+            container.innerHTML = '';
+            if (w.length === 0) { emptyMsg.style.display = 'block'; return; }
+            emptyMsg.style.display = 'none';
+            w.forEach(id => {
+                const pid = parseInt(id, 10);
+                const product = products.find(p => p.id === pid);
+                if (!product) return;
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                card.innerHTML = `
+                    <img src="${product.image}" alt="${product.name}" class="product-image">
+                    <div class="product-info">
+                        <h3 class="product-title">${product.name}</h3>
+                        <div class="product-price">GHS${product.price}</div>
+                        <div class="product-actions">
+                            <button class="action-btn add-to-cart" data-id="${product.id}">Add to Cart</button>
+                            <button class="action-btn remove-wishlist" data-id="${product.id}">Remove</button>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+            container.querySelectorAll('.add-to-cart').forEach(btn => btn.addEventListener('click', (e) => addToCart(parseInt(e.currentTarget.getAttribute('data-id'),10))));
+            container.querySelectorAll('.remove-wishlist').forEach(btn => btn.addEventListener('click', (e) => removeFromWishlist(parseInt(e.currentTarget.getAttribute('data-id'),10))));
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderWishlist();
+            updateHeaderWishlistCount();
+            updateHeaderCartCount();
+            const wishlistBtn = document.getElementById('wishlistBtn');
+            if (wishlistBtn) wishlistBtn.addEventListener('click', () => showMessage('You are viewing your wishlist'));
+        });
+    </script>
+</body>
+</html>

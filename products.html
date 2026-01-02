@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Products - QuickCart</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css">
+</head>
+<body>
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="logo"><h2>QuickCart</h2></div>
+
+                <div class="search-bar">
+                    <input type="text" placeholder="Search Products..." id="searchInput" class="search-input">
+                    <button class="search-btn"><i class="fas fa-search search-icon"></i></button>
+                </div>
+
+                <div class="nav-links">
+                    <a href="index.html" class="nav-link">Home</a>
+                    <a href="products.html" class="nav-link">Products</a>
+                    <a href="about.html" class="nav-link">About</a>
+                </div>
+
+                <div class="nav-icons">
+                    <button class="icon-btn" id="userBtn"><i class="fas fa-user"></i></button>
+                    <button class="icon-btn" id="wishlistBtn"><i class="fas fa-heart"></i><span class="badge" id="wishlistCount">0</span></button>
+                    <button class="icon-btn" id="cartBtn"><i class="fas fa-shopping-cart"></i><span class="badge" id="cartCount">0</span></button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        <section id="products" class="products">
+            <h2>Products</h2>
+
+            <div class="products-layout">
+                <aside class="categories-sidebar" id="categoriesSidebar">
+                    <h3>Categories</h3>
+                    <ul>
+                        <li><button data-cat="all">All</button></li>
+                        <li><button data-cat="electronics">Electronics</button></li>
+                        <li><button data-cat="clothing">Clothing</button></li>
+                        <li><button data-cat="furniture">Furniture</button></li>
+                        <li><button data-cat="sports">Sports</button></li>
+                    </ul>
+                </aside>
+
+                <div class="products-main">
+                    <div class="filter-bar">
+                        <select id="categoryFilter">
+                            <option value="all">All Categories</option>
+                            <option value="electronics">Electronics</option>
+                            <option value="clothing">Clothing</option>
+                            <option value="furniture">Furniture</option>
+                            <option value="sports">Sports</option>
+                        </select>
+
+                        <select id="sortFilter">
+                            <option value="price-low">Price: Low to High</option>
+                            <option value="price-high">Price: High to Low</option>
+                        </select>
+                    </div>
+
+                    <div class="products-grid" id="productsGrid"></div>
+
+                    <div id="pagination" class="pagination"></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-bottom">
+            <p>Copyright &copy; 2026 QuickCart All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // script.js's init() will run and populate the products grid and wire events
+        document.addEventListener('DOMContentLoaded', () => {
+            // if script.js didn't run init for some reason, call displayProducts directly
+            if (typeof displayProducts === 'function') displayProducts(products);
+        });
+    </script>
+</body>
+</html>

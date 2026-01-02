@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuickCart - Your Favourite Online Store</title>
+    <link rel="stylesheet" href="css/style.css">
+   
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css">
+
+
+</head>
+<body>
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-container">
+
+                <div class="logo">
+                    <h2>QuickCart</h2>
+                </div> 
+
+                <div class="search-bar">
+                    <input type="text" placeholder="Search Products..." id="searchInput" class="search-input">
+                    <button class="search-btn"><i class="fas fa-search search-icon"></i></button> 
+                </div>
+
+                <div class="nav-links">
+                    <a href="index.html" class="nav-link">Home</a>
+                    <a href="products.html" class="nav-link">Products</a>
+                    <a href="category.html" class="nav-link">Categories</a>
+                    <a href="about.html" class="nav-link">About</a>
+                </div>
+
+                <div class="nav-icons">
+                    <button class="icon-btn" id="userBtn" onclick="showLoginModal()"><i class="fas fa-user"></i></button>
+
+                    <button class="icon-btn" id="wishlistBtn"><i class="fas fa-heart"></i><span class="badge" id="wishlistCount">0</span></button>
+
+                    <button class="icon-btn" id="cartBtn">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="badge" id="cartCount">0</span></button>
+                </div>
+<!------------
+            <svg onclick="darkMode()" viewBox="0 0 512 512" width="20px" id="sun-icon">
+                <g id="Sun">
+                    <path d="M255.8,120a136,136,0,1,0,136,136.05v0A136.17,136.17,0,0,0,255.8,120Z" style="fill:#1e1e1e"/>
+                    <path d="M472,232H440a24,24,0,0,0,0,48h32a24,24,0,0,0,0-48Z" style="fill:#1e1e1e"/>
+                    <path d="M255.8,416a24,24,0,0,0-24,24v32a24,24,0,1,0,48,0V440A24,24,0,0,0,255.8,416Z" style="fill:#1e1e1e"/>
+                    <path d="M96,256.05a24,24,0,0,0-24-24H40a24,24,0,1,0,0,48H72A24,24,0,0,0,96,256.05Z" style="fill:#1e1e1e"/>
+                    <path d="M255.8,96a24,24,0,0,0,24-24V40a24,24,0,0,0-48,0V72a24,24,0,0,0,24,24Z" style="fill:#1e1e1e"/>
+                    <path d="M402.89,142.87l22.63-22.63a24,24,0,0,0-33.85-34l-.07.07L369,109a24,24,0,0,0,33.86,34Z" style="fill:#1e1e1e"/>
+                    <path d="M402.89,369.22a24,24,0,0,0-34,33.87l.06.05,22.63,22.63a24,24,0,0,0,34-33.86l-.06-.06Z" style="fill:#1e1e1e"/>
+                    <path d="M108.7,369.22,86.07,391.85a24,24,0,1,0,33.85,34l.07-.07,22.63-22.63a24,24,0,1,0-33.86-34Z" style="fill:#1e1e1e"/>
+                    <path d="M108.7,142.87a24,24,0,1,0,34-33.89l0,0L120,86.32a24,24,0,1,0-34,33.83l.09.09Z" style="fill:#1e1e1e"/>
+                </g>
+            </svg>
+            <svg onclick="lightMode()" viewBox="0 0 312.81 311.51" width="20px" id="moon-icon">
+                <path d="M305.2,178.16a11,11,0,0,0-9.2,2A117.36,117.36,0,0,1,260.4,201a111.48,111.48,0,0,1-40.4,7.2A117.45,117.45,0,0,1,102.4,90.56a123.27,123.27,0,0,1,6.4-38.8A107.41,107.41,0,0,1,128,17.36,10.21,10.21,0,0,0,126.4,3a11,11,0,0,0-9.2-2,161.41,161.41,0,0,0-84.8,56.8,158.38,158.38,0,1,0,280,132.8A9.71,9.71,0,0,0,305.2,178.16Z" transform="translate(0 -0.65)" style="fill:#1e1e1e"/>
+            </svg>
+            </div>
+        </nav>
+    ---->
+
+        <!--dropdown menu-->
+        <div  class="user-menu" id="userMenu">
+            <div class="user-menu-header">
+                <span id="userGreeting"></span>
+            </div>
+            <a href="profile.php" class="user-menu-item">My Profile</a>
+            <a href="orders.php" class="user-menu-item">My Orders</a>
+            <a href="wishlist.html" class="user-menu-item">Wishlist</a>
+            <button onclick="logout()" class="user-menu-item">Logout</button>
+        </div> 
+    </header>
+
+    <main class="main-content">
+        <section id="home" class="hero">
+            <div class="hero-content">
+                <h1>Welcome to QuickCart</h1>
+                <p>Discover amazing products at unbeatable prices!</p>
+                <button class="cta-btn" onclick="scrollToProducts()">Shop Now</button>
+
+                 <!--in case user is not logged in-->
+
+                <div id="guestMessage" style="margin-top: 20px; display: none;">
+                    <p>Create an account to save your cart and earn rewards!</p>
+                <button class="cta-btn" onclick="showRegisterModal()">Sign up Free</button>
+                </div>
+            </div>
+        </section>
+
+
+<!-------Categories Section-->
+
+        <section id="categories" class="categories">
+            <h2>Shop by Category</h2>
+            <div class="category-grid">
+                <div class="category-card" data-category="electronics"> 
+                    <i class="fas fa-laptop"></i>
+                    <h3>Electronics</h3>
+                </div>
+                <div class="category-card" data-category="clothing">
+                    <i class="fas fa-tshirt"></i>
+                    <h3>Clothing</h3>
+                </div>
+                <div class="category-card" data-category="furniture">
+                    <i class="fas fa-chair"></i>
+                    <h3>Furniture</h3>
+                </div>
+                <div class="category-card" data-category="sports">
+                    <i class="fas fa-basketball-ball"></i>
+                    <h3>Sports</h3>
+                </div>
+            </div>
+        </section>
+
+        <!------Products section----->
+        <section id="products" class="products">
+            <h2>Featured Products</h2>
+            <div class="filter-bar">
+                <select id="categoryFilter">
+                    <option value="all">All Categories</option>
+                    <option value="electronics">Electronics</option>
+                    <option value="clothing">Clothing</option>
+                    <option value="furniture">Furniture</option>
+                    <option value="sports">Sports</option>
+                </select>
+
+                <select id="sortFilter">
+                    <option value="price-low">Price: Low to High</option>
+                    <option value="price-high">Price: High to Low</option>
+                </select>
+            </div>
+
+            <div class="products-grid" id="productsGrid"></div>
+        </section>
+    </main>
+
+    <!----Cart Sidebar-->
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h3>Shopping Cart</h3>
+            <button class="close-btn" id="closeCart">&times;</button>
+        </div>
+
+        <div class="cart-items" id="cartItems">
+            <!------cart items shown here---->
+        </div>
+
+        <div class="cart-footer">
+            <div class="cart-total">
+                <strong>Total: GHS<span id="cartTotal">0.00</span></strong>
+            </div>
+                <button class="checkout-btn" id="checkoutBtn">Proceed to Checkout</button>
+
+            <!--login prompt for guests-->
+            <div id="guestCheckoutPrompt" style="margin-top: 10px; display: none;">
+                <p style="font-size: 0.9rem; color: #666; text-align: center;"><a href="#" onclick="showLoginModal(); closeCartSidebar();" style="color: #4a90e2;">Log in</a> to save your cart</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="cart-overlay" id="cartOverlay"></div>
+
+    <!----Product Modal-->
+    <div class="modal" id="productModal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="modal-body" id="modalBody">
+                <!----Product details load here-->
+            </div>
+        </div>
+    </div>
+
+    <!--AUTH MODALS-->
+    <!--login modals-->
+    <div class="modal auth-modal" id="loginModal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('loginModal')">&times;</span>
+            <h2>Login to your account</h2>
+            <form id="loginForm" onsubmit="login(event)">
+                <div class="form-group">
+                    <input type="email" id="loginEmail" name="email" placeholder="Email" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" id="loginPassword" name="password" placeholder="Password" required>
+                </div>
+                <button type="submit" class="cta-btn" style="width: 100%; margin-top: 1rem;">Login</button>
+            </form>
+                <p style="text-align: center; margin-top: 1rem;">Don't have an account?<a href="#" onclick="showRegisterModal()" style="color: #4a90e2; font-weight: 500;"> Sign up here</a></p>
+        </div>
+    </div>
+
+    <!--register modal-->
+    <div class="modal auth-modal" id="registerModal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('registerModal')">&times;</span>
+            <h2>Create New Account</h2>
+
+            <form id="registerForm" onsubmit="register(event)">
+                <div class="form-group">
+                    <label for="registerUsername">Username*:</label>
+                    <input type="text" id="registerUsername" name="username" placeholder="Choose a username">
+                </div>
+                <div class="form-group">
+                    <label for="registerEmail">Email Address*:</label>
+                    <input type="email" id="registerEmail" name="email" placeholder="Enter your email">
+                </div>
+                <div class="form-group">
+                    <label for="registerPassword">Password*:</label>
+                    <input type="password" id="registerPassword" name="password" placeholder="At least 8 characters">
+                </div>
+                <div class="form-group">
+                    <label for="registerFirstName">First Name:</label>
+                    <input type="text" id="registeFirstName" name="first_name" placeholder="Optional">
+                </div>
+                <div class="form-group">
+                    <label for="registerLastName">Last Name:</label>
+                    <input type="text" id="registeLastName" name="last_name" placeholder="Optional">
+                </div>
+                <button type="submit" class="cta-btn" style="width: 100%; margin-top: 1rem;">Create Account</button>
+            </form>
+            <p style="text-align: center; margin-top: 1rem;">Already have an account?<a href="#" onclick="showLoginModal()" style="color: #4a90e2; font-weight: 500;"> Login here</a></p>
+        </div>
+    </div>
+
+<footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>QuickCart&trade;</h3>
+                <p>Your trusted shopping destination</p>
+            </div>
+
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <a href="index.html">Home</a>
+                <a href="products.html">Products</a>
+                <a href="about.html">About Us</a>
+                <a href="contact.html">Contact</a>
+            </div>
+
+            <div class="footer-section">
+                <h4>Customer Service</h4>
+                <a href="shipping.html">Shipping Info</a>
+                <a href="returns.html">Returns</a>
+                <a href="faq.html">FAQ</a>
+            </div>
+
+            <div class="footer-section">
+                <h4>Connect With Us</h4>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-x-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-tiktok"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>Copyright &copy; 2026 QuickCart All rights reserved.</p>
+        </div>
+</footer>    
+
+<script src="script.js"></script>
+
+<script>
+    let currentUser = null;
+
+    async function checkLoginStatus() {
+        try {
+            const response = await fetch('api/auth/status.php');
+            const data = await response.json();
+            if (data.success && data.user) {
+                currentUser = data.user;
+
+                updateUIForLoggedInUser(data.user);
+
+                hideGuestMessages();
+            } else {
+                showGuestMessages();
+            }
+        } catch (error) {
+            console.error('Error checking login status:', error);
+
+            //continue as guest if api fails//
+            showGuestMessages();
+        }
+    }
+
+    //update UI for logged in user//
+    function updateUIForLoggedInUser(user) {
+        //update user button//
+        const userBtn = document.getElementById('userBtn');
+        if (userBtn) {
+            userBtn.innerHTML = `<i class="fas fa-user"></i> ${user.username}`;
+            userBtn.onclick = toggleUserMenu;
+            userBtn.classList.add('user-logged-in');
+        }
+
+        //show user menu//
+        const userMenu = document.getElementById('userMenu');
+        const userGreeting = document.getElementById('userGreeting');
+        if (userGreeting) userGreeting.textContent = `Hello, ${user.first_name || user.username}!`;
+
+        //load user specific data if available//
+        if (typeof loadUserCart === 'function') loadUserCart();
+        if (typeof loadUserWishlist === 'function') loadUserWishlist();
+    }
+
+    //show guest messages//
+    function showGuestMessages() { 
+        document.getElementById('guestMessage').style.display = 'block';
+        document.getElementById('guestCheckoutPrompt').style.display = 'block';
+    }
+
+    //hide guest messages//
+    function hideGuestMessages() {
+        document.getElementById('guestMessage').style.display = 'none';
+        document.getElementById('guestCheckoutPrompt').style.display = 'none';
+    }
+
+    //toggle user menu//
+    function toggleUserMenu() {
+        const userMenu = document.getElementById('userMenu');
+        userMenu.style.display = userMenu.style.display === 'block' ? 'none' : 'block';
+    }
+
+    //close user menu when clicking outside//
+    document.addEventListener('click', function (e) {
+        const userMenu = document.getElementById('userMenu');
+        const userBtn = document.getElementById('userBtn');
+
+        if (userMenu && userBtn && !userMenu.contains(e.target) && !userBtn.contains(e.target)) {
+            userMenu.style.display = 'none';
+        }
+    });
+    
+    //login function//
+    async function login(event) {
+        event.preventDefault();
+
+        const formData = new FormData(event.target);
+        const data = Object.fromEntries(formData);
+        
+        try {
+            const response = await fetch('api/auth/login.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json',
+            },
+                body:JSON.stringify(data)});
+
+            const result = await response.json();
+
+            if (result.success) {
+                closeModal('loginModal');
+
+                showNotification('Login successful!');
+                setTimeout(() => location.reload(), 1000);
+            } else {
+                showNotification(result.error || 'Login failed. Please check your details.');
+            }
+        } catch (error) {
+            showNotification('Login error: Please try again later.');
+        }
+    }
+
+    //register function//
+    async function register(event) {
+        event.preventDefault();
+        const formData = new FormData(event.target);
+        const data = Object.fromEntries(formData);
+
+        try {
+            const response = await fetch('api/auth/register.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json',
+            },
+            body:JSON.stringify(data)});
+
+            const result = await response.json();
+            
+            if (result.success) {
+                closeModal('registerModal');
+
+                showNotification('Registration successful! Redirecting to login...');
+                setTimeout(() => showLoginModal(), 1500);
+            } else {
+                const errors = result.errors || [result.error || "Registration failed"];
+
+                showNotification(errors.join(','));
+            }
+        } catch (error) {
+            showNotification('Signup error: Please try again later.');
+        }
+    }
+
+    //logout function//
+    async function logout() {
+        try {
+            const response = await fetch('api/auth/logout.php');
+            const result = await response.json();
+
+            if (result.success) {
+                currentUser = null;
+                showNotification('Logged out successfully');
+                setTimeout(() => location.reload(), 1000);
+            }
+        } catch (error) {
+            console.error('Logout error:', error);
+        }
+    }
+
+    //show / hide modals//
+    function showLoginModal() {
+        closeAllModals();
+        document.getElementById('loginModal').style.display = 'block';
+    }
+
+    function showRegisterModal() {
+        closeAllModals();
+
+        document.getElementById('registerModal').style.display = 'block';
+    }
+
+    function closeModal(modalId) {
+        document.getElementById(modalId).style.display = 'none';
+    }
+
+    function closeAllModals() {
+        document.querySelectorAll('.modal').forEach(m => m.style.display = 'none');
+    }
+
+    function toggleUserMenu() {
+        const userMenu = document.getElementById('userMenu');
+
+        userMenu.style.display = userMenu.style.display === 'block' ? 'none' : 'block';
+    }
+
+    //load cart from database//
+    async function loadUserCart() {
+        if (!currentUser) return;
+
+        try {
+            const response = await fetch('api/cart.get.php');
+            const result = await response.json();
+
+            if (result.success) {
+                //update cart display//
+                updateCartDisplay(result.items, result.items.length);
+
+                updateCartCount(result.count || result.items.length);
+            }
+        } catch (error) {
+            console.error('Error loading cart:', error);
+        }
+    }
+
+    //load wishlist//
+    async function loadUserWishlist() {
+        if (!currentUser) return;
+
+        try {
+            const response = await fetch('api/wishlist.get.php');
+            const result = await response.json();
+
+            if (result.success) {
+                updateWishlistCount(result.count);
+            }
+        } catch (error) {
+            console.error('Error loading wishlist:', error);
+        }
+    }
+
+
+    //cart functions to use API//
+    async function addToCart(productId, quantity = 1) {
+        try {
+            const response = await fetch('api/cart/add.php', {
+                
+           method: 'POST',
+                headers: { 'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ productId, quantity })
+            });
+
+            const result = await response.json();
+            
+            if (result.success) {
+                updateCartCount(result.cart_count || result.count);
+
+                showNotification('Product added to cart!');
+
+                //refresh cart display if sidebar is open//
+                if (document.getElementById('cartSidebar').classList.contains('active')) {
+                    loadUserCart();
+                }
+            } else {
+                showNotification(result.error || 'Failed to add to cart');
+            }
+
+            } catch (error) {
+                showNotification('Error adding to cart: ' + error.message);
+            }
+        }
+
+    //check login status on page load//
+    document.addEventListener('DOMContentLoaded', checkLoginStatus);
+
+    //close modals clicking outside//
+    window.addEventListener('click', function(event) {
+        const modals = document.querySelectorAll('.modal');
+        modals.forEach(modal => {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+    });
+
+    //close modals with escape key//
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape') {
+            closeAllModals();
+
+            document.getElementById('userMenu').style.display = 'none';
+        }
+    });
+
+
+</script>
+
+</body>
+
+</html>
